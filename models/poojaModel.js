@@ -1,7 +1,17 @@
-import pool from "../config/db.config.js";
+import pool from "../config/db.js";
+import {getCache, serCache, deleteCache} from "../config/redis.js"
 
  const getAllPoojas =  async ()=>{
+  const cashKeey = "all_poojas";
+  const cachedData = await getCache(cashKeey);
+  if(cachedData){
+    console.log("Cache hit for poojas");
+    return cachedData;
+  }
+    console.log("Cache miss for poojas, fetching from DB...");
     const result = await pool.query("SELECT * FROM poojas");
+    await serCache(cashKeey, result.rows);
+
     return result.rows
 }
 
@@ -48,5 +58,5 @@ import pool from "../config/db.config.js";
     // );
     // return result.rows[0];
   };
-  
+
 export {getAllPoojas, createPooja, modifyPooja};

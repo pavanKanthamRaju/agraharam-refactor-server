@@ -1,4 +1,4 @@
-import pool from "../config/db.config.js";
+import pool from "../config/db.js";
 
 const createPaymentRecord = async (order_id, amount, transaction_id, status) => {
   const payload={

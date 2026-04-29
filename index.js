@@ -1,6 +1,5 @@
 import express from 'express';
 import cors from 'cors';
-import pool from './config/db.js';
 import 'dotenv/config';
 import userRoutes from "./routes/userRoutes.js"
 import authRouts from "./routes/authRouts.js"

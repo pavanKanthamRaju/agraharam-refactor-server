@@ -1,4 +1,4 @@
-import pool from "../config/db.config.js";
+import pool from "../config/db.js";
 
 const createItem = async ({ item_name, description,default_quantity, price, units, image }) => {
   const payload = {

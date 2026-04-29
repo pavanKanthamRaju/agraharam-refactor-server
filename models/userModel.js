@@ -1,4 +1,4 @@
-import pool from '../config/db.config.js';
+import pool from '../config/db.js';
 
 const getAllUsers = async () => {
     const res = await pool.query("SELECT * FROM users")
@@ -15,8 +15,11 @@ const createUser = async ({ name, email, password, phone, role, profile_image, p
 }
 
 const findUser = async (email, phone) => {
+   
     const res = await pool.query("SELECT * FROM users WHERE email = $1 OR phone = $2", [email, phone]);
+    console.log(res)
     return res.rows[0];
+   
 }
 
 export { getAllUsers, createUser, findUser };

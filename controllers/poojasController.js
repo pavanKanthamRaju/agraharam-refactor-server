@@ -1,4 +1,3 @@
-import pool from "../config/db.js"
 import {getAllPoojas, createPooja, modifyPooja} from "../models/poojaModel.js"
 
 const getPoojas = async (req,res)=>{

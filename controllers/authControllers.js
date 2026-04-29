@@ -3,7 +3,6 @@ import * as User from "../models/userModel.js";
 import jwt from "jsonwebtoken";
 import { generateToken } from "../utils/jwt.js";
 import { OAuth2Client } from "google-auth-library";
-import pool from "../config/db.js";
 
 const client = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
 
@@ -35,6 +34,7 @@ const signUp = async (req, res) => {
 }
 const login = async (req, res) => {
     const { identifier, password } = req.body;
+    console.log("credentials", JSON.stringify(req.body))
     if (!identifier || !password) {
         return res.status(400).json({ error: "emai/phone number and password should not be eampty" })
     }
