@@ -1,0 +1,42 @@
+import express from 'express';
+import cors from 'cors';
+import pool from './config/db.js';
+import 'dotenv/config';
+import userRoutes from "./routes/userRoutes.js"
+import authRouts from "./routes/authRouts.js"
+import poojasRouts from "./routes/poojaRoutes.js"
+import paymentRoutes from "./routes/paymentRoutes.js"
+import orderRoutes from "./routes/orderRoutes.js"
+import itemRoutes from "./routes/itemRoutes.js"
+import poojaItemsRoutes from "./routes/poojaItemsRoute.js"
+import announcementRoutes from "./routes/announcementRoute.js"
+
+const app = express();
+const PORT = process.env.PORT || 5000;
+const corsOptions = {
+  origin: '*', // Or your frontend URL like 'http://localhost:5173'
+  methods: ['GET', 'POST', 'OPTIONS','PUT', 'DELETE'],
+  allowedHeaders: ['Content-Type'],
+}; 
+
+app.use(cors(corsOptions));
+app.use(express.json());
+ 
+
+//Routes 
+app.use('/api/users', userRoutes)
+app.use('/api/auth',authRouts)
+app.use('/api/poojas', poojasRouts)
+app.use('/api/payment', paymentRoutes)
+app.use('/api/orders', orderRoutes)
+app.use('/api/items', itemRoutes)
+app.use('/api/poojaItems', poojaItemsRoutes)
+app.use('/api/announcements', announcementRoutes)
+
+
+app.get('/', (req, res) => res.send('API is working 🚀'));
+
+// Start the server
+app.listen(PORT, () => {
+  console.log(`Server is running on http://localhost:${PORT}`);
+});
