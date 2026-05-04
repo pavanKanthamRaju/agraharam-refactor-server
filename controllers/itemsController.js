@@ -8,7 +8,8 @@ const addItem = async (req, res) => {
     if (!item_name) {
       return res.status(400).json({ success: false, message: "Item name is required" });
     }
-    const existingItem = findItem(item_name)
+    const existingItem = await findItem(item_name)
+    console.log("existingItem", existingItem)
     if (existingItem) {
       return res.status(400).json({ success: false, message: "Item allready existed please enter new Item" });
     }
@@ -34,31 +35,31 @@ const updateItemController = async (req, res) => {
     try {
       const { id } = req.params;
       const { item_name, description, default_quantity, price, units, image } = req.body;
-    
-  
+
+
       const updatedItem = await updateItem(id, { item_name, description, default_quantity, price, units, image  });
-  
+
       if (!updatedItem) {
         return res.status(404).json({ success: false, message: "Item not found" });
       }
-  
+
       res.json({ success: true, item: updatedItem });
     } catch (error) {
       console.error("Error updating item:", error);
       res.status(500).json({ success: false, message: "Failed to update item" });
     }
   };
-  
+
   // ✅ Delete Item
   const deleteItemController = async (req, res) => {
     try {
       const { id } = req.params;
       const deletedItem = await deleteItem(id);
-  
+
       if (!deletedItem) {
         return res.status(404).json({ success: false, message: "Item not found" });
       }
-  
+
       res.json({ success: true, message: "Item deleted successfully", item: deletedItem });
     } catch (error) {
       console.error("Error deleting item:", error);

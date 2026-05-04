@@ -21,11 +21,11 @@ const postPooja = async (req, res) => {
     try {
       const { id } = req.params; // get pooja id from URL
       const poojaData = req.body; // updated pooja data from frontend
-  
+
       if (!id) {
         return res.status(400).json({ error: "Pooja ID is required for update" });
       }
-  
+
       const updatedPooja = await modifyPooja(id, poojaData); // your model function
       res.status(200).json(updatedPooja);
     } catch (err) {

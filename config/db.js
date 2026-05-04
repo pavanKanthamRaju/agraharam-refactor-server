@@ -133,6 +133,7 @@ const createPgAdapter = () => {
             return result.rows[0];
         },
         findItem: async (name) => {
+
             const sql = `SELECT * FROM items WHERE name = $1`;
             const result = await pool.query(sql, [name]);
             return result.rows[0];

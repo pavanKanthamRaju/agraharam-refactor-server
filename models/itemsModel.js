@@ -56,7 +56,7 @@ const updateItem = async (id, { item_name, description, default_quantity, price,
     // const result = await pool.query(query, values);
     // return result.rows[0];
   };
-  
+
   const deleteItem = async (id) => {
     // const query = `DELETE FROM items WHERE id = $1 RETURNING *;`;
     // const result = await pool.query(query, [id]);
@@ -65,7 +65,9 @@ const updateItem = async (id, { item_name, description, default_quantity, price,
     return result;
   };
   const findItem = async (name) =>{
+
 const result  = await pool.findItem(name);
+
 return result;
   }
 
