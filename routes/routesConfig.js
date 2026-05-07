@@ -7,6 +7,8 @@ import orderRoutes from "./orderRoutes.js"
 import itemRoutes from "./itemRoutes.js"
 import poojaItemsRoutes from "./poojaItemsRoute.js"
 import announcementRoutes from "./announcementRoute.js"
+import ragRouter from "./ragRouter.js"
+
 
 const router = express.Router();
 
@@ -18,5 +20,7 @@ router.use('/orders', orderRoutes)
 router.use('/items', itemRoutes)
 router.use('/poojaItems', poojaItemsRoutes)
 router.use('/announcements', announcementRoutes)
+router.use('/askAgraharam',  ragRouter)
+
 
 export default router;

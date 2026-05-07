@@ -7,7 +7,13 @@ export class AppError extends Error{
 }
 
 
-export const errorHandler = (err,req,res,next)=>{
-    res.status(err.statusCode).json({success:false,message:err.message || "Internal Server Error"})
+export const errorHandler = (err, req, res, next) => {
+  console.error("ERROR:", err);
 
-}
+  const statusCode = err.statusCode || err.status || 500;
+
+  res.status(statusCode).json({
+    success: false,
+    message: err.message || "Internal Server Error",
+  });
+};
