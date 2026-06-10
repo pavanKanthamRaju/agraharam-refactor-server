@@ -1,0 +1,8 @@
+import express from "express";
+import { getUsers, createUser } from "../controllers/userController.js";
+import verifyToken from "../middlewares/jwtMiddleware.js";
+const router = express.Router();
+router.get("/", verifyToken, getUsers);
+router.post("/", createUser);
+export default router;
+//# sourceMappingURL=userRoutes.js.map

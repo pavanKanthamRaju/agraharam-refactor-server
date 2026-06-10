@@ -11,6 +11,7 @@ try{
 
 const postPooja = async (req, res) => {
     try {
+      console.log("Received Pooja data:", req.body);
       const newPooja = await createPooja(req.body);
       res.status(201).json(newPooja);
     } catch (err) {
