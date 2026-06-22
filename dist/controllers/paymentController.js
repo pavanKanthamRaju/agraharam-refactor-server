@@ -1,7 +1,6 @@
 import crypto from "crypto";
 import razorpay from "../config/razorpay.js";
-import { createOrderRecord } from "../models/orderModel.js";
-import { createPaymentRecord } from "../models/paymentModel.js";
+import { createOrderWithPayment } from "../models/orderModel.js";
 import { sendSms } from "../utils/twilioClient.js";
 const createOrder = async (req, res) => {
     try {
@@ -33,10 +32,9 @@ const verifyPayment = async (req, res) => {
             .update(sign.toString())
             .digest("hex");
         if (razorpay_signature === expectedSign) {
-            const order = await createOrderRecord(user_id, pooja_id, total_amount, booking_date, booking_time, "paid", address, phone_number);
+            const order = await createOrderWithPayment(user_id, pooja_id, total_amount, booking_date, booking_time, "paid", address, phone_number, razorpay_payment_id);
             const message = `Hi! Your order #${order.id} has been successfully placed with Agraharam. Total amount : ₹${order.total_amount / 100}. We'll update you when it's confirmed.`;
             console.log("twilio message is..", message);
-            await createPaymentRecord(order.id, total_amount, razorpay_payment_id, "success");
             try {
                 const twResp = await sendSms({ to: `+91${phone_number}`, body: message });
                 console.log("SMS sent:", twResp.sid);

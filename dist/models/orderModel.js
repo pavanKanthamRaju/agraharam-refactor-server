@@ -61,5 +61,34 @@ ORDER BY o.created_at DESC
       `);
     return result.rows;
 };
-export { createOrderRecord, getOrders, getTotalOrders };
+const createOrderWithPayment = async (user_id, pooja_id, total_amount, booking_date, booking_time, payment_status, address, phone_number, razorpay_payment_id) => {
+    const query = `
+      WITH inserted_order AS (
+        INSERT INTO "orders" ("user_id", "pooja_id", "total_amount", "booking_date", "booking_time", "payment_status", "address", "phone_number")
+        VALUES ($1, $2, $3, $4, $5, $6, $7, $8)
+        RETURNING *
+      ), inserted_payment AS (
+        INSERT INTO "payments" ("order_id", "amount", "transaction_id", "status", "paid_at")
+        SELECT id, $3, $9, 'success', NOW()
+        FROM inserted_order
+        RETURNING *
+      )
+      SELECT * FROM inserted_order;
+    `;
+    const values = [
+        user_id,
+        pooja_id,
+        total_amount,
+        booking_date,
+        booking_time,
+        payment_status,
+        address,
+        phone_number,
+        razorpay_payment_id
+    ];
+    const result = await db.query(query, values);
+    console.log("ORDER WITH PAYMENT result..." + JSON.stringify(result));
+    return result.rows[0];
+};
+export { createOrderRecord, getOrders, getTotalOrders, createOrderWithPayment };
 //# sourceMappingURL=orderModel.js.map
