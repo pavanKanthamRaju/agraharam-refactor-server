@@ -5,7 +5,7 @@ import { QueryResult } from '../types/index.js';
 
 const { Pool } = pg;
 
-const isProd = process.env.NODE_ENV === 'production';
+const isProd = process.env.NODE_ENV !== 'dev' && process.env.NODE_ENV !== 'development';
 
 interface DbAdapter {
   query: (text: string, values?: any[]) => Promise<QueryResult<any>>;
@@ -35,22 +35,22 @@ const createSupabaseAdapter = (): DbAdapter => {
 
     // Helper to substitute $1, $2, etc. with actual values for RPC calls
     const substituteParams = (text: string, params: any[]): string => {
-        let finalQuery = text;
-        params.forEach((param, index) => {
-            const placeholder = new RegExp(`\\$${index + 1}(?!\\d)`, 'g');
-            let value: any;
-            if (param === null || param === undefined) {
-                value = 'NULL';
-            } else if (typeof param === 'string') {
-                value = `'${param.replace(/'/g, "''")}'`;
-            } else if (typeof param === 'boolean') {
-                value = param ? 'TRUE' : 'FALSE';
-            } else {
-                value = param;
+        return text.replace(/\$(\d+)(?!\d)/g, (match, numStr) => {
+            const index = parseInt(numStr, 10) - 1;
+            if (index < 0 || index >= params.length) {
+                return match;
             }
-            finalQuery = finalQuery.replace(placeholder, value);
+            const param = params[index];
+            if (param === null || param === undefined) {
+                return 'NULL';
+            } else if (typeof param === 'string') {
+                return `'${param.replace(/'/g, "''")}'`;
+            } else if (typeof param === 'boolean') {
+                return param ? 'TRUE' : 'FALSE';
+            } else {
+                return param;
+            }
         });
-        return finalQuery;
     };
 
     return {

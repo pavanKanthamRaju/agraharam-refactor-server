@@ -22,9 +22,8 @@ export const chunkText = (text) => {
         if (chunk.length > 50) {
             chunks.push(chunk);
         }
-        start = end - OVERLAP;
-        if (start < 0)
-            start = 0;
+        const nextStart = end - OVERLAP;
+        start = nextStart > start ? nextStart : end;
     }
     return chunks;
 };

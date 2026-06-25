@@ -2,7 +2,7 @@ import 'dotenv/config';
 import pg from 'pg';
 import { createClient } from '@supabase/supabase-js';
 const { Pool } = pg;
-const isProd = process.env.NODE_ENV === 'production';
+const isProd = process.env.NODE_ENV !== 'dev' && process.env.NODE_ENV !== 'development';
 /**
  * Supabase Adapter
  * Used in production environment.
@@ -19,25 +19,25 @@ const createSupabaseAdapter = () => {
     });
     // Helper to substitute $1, $2, etc. with actual values for RPC calls
     const substituteParams = (text, params) => {
-        let finalQuery = text;
-        params.forEach((param, index) => {
-            const placeholder = new RegExp(`\\$${index + 1}(?!\\d)`, 'g');
-            let value;
+        return text.replace(/\$(\d+)(?!\d)/g, (match, numStr) => {
+            const index = parseInt(numStr, 10) - 1;
+            if (index < 0 || index >= params.length) {
+                return match;
+            }
+            const param = params[index];
             if (param === null || param === undefined) {
-                value = 'NULL';
+                return 'NULL';
             }
             else if (typeof param === 'string') {
-                value = `'${param.replace(/'/g, "''")}'`;
+                return `'${param.replace(/'/g, "''")}'`;
             }
             else if (typeof param === 'boolean') {
-                value = param ? 'TRUE' : 'FALSE';
+                return param ? 'TRUE' : 'FALSE';
             }
             else {
-                value = param;
+                return param;
             }
-            finalQuery = finalQuery.replace(placeholder, value);
         });
-        return finalQuery;
     };
     return {
         query: async (text, values = []) => {

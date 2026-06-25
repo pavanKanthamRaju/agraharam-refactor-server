@@ -123,6 +123,27 @@ export interface Item {
     created_at?: Date;
     updated_at?: Date;
 }
+export interface Nivedyam {
+    id: string;
+    name: string;
+    description?: string;
+    price: number;
+    unit?: string;
+    image_url?: string;
+    category_id?: number;
+    created_at?: Date;
+    updated_at?: Date;
+    deleted_at?: Date | null;
+}
+export interface PoojaNivedyam {
+    id: string;
+    pooja_id: string;
+    nivedyam_id: string;
+    price: number;
+    quantity?: string;
+    units?: string;
+    nivedyam_name?: string;
+}
 export interface Announcement {
     id: string;
     title: string;

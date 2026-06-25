@@ -1,5 +1,5 @@
 import db from '../config/db.js';
-import { getCache, serCache } from '../config/redis.js';
+import { getCache, serCache, deleteCache } from '../config/redis.js';
 const getAllPoojas = async () => {
     const cacheKey = "all_poojas";
     const cachedData = await getCache(cacheKey);
@@ -25,6 +25,7 @@ const createPooja = async (pooja) => {
     try {
         const result = await db.insert("poojas", payload);
         console.log("RESULT:", result);
+        await deleteCache("all_poojas");
         return result;
     }
     catch (error) {
@@ -43,6 +44,7 @@ const modifyPooja = async (id, pooja) => {
     };
     const result = await db.update("poojas", id, payload);
     console.log("result..." + result.name);
+    await deleteCache("all_poojas");
     return result;
 };
 export { getAllPoojas, createPooja, modifyPooja };

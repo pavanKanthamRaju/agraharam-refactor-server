@@ -1,6 +1,6 @@
 import db from '../config/db.js';
 import { Pooja } from '../types/index.js';
-import { getCache, serCache } from '../config/redis.js';
+import { getCache, serCache, deleteCache } from '../config/redis.js';
 
 const getAllPoojas = async (): Promise<Pooja[]> => {
     const cacheKey = "all_poojas";
@@ -30,6 +30,7 @@ const createPooja = async (pooja: any): Promise<Pooja> => {
     try {
         const result = await db.insert("poojas", payload);
         console.log("RESULT:", result);
+        await deleteCache("all_poojas");
         return result;
     } catch (error) {
         console.error("DB INSERT ERROR:", error);
@@ -48,6 +49,7 @@ const modifyPooja = async (id: string, pooja: any): Promise<Pooja> => {
     };
     const result = await db.update("poojas", id, payload);
     console.log("result..." + result.name);
+    await deleteCache("all_poojas");
     return result;
 };
 
