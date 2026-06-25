@@ -30,8 +30,8 @@ const getOrders = async (user_id) => {
         pooja.name AS pooja_name,
         pooja.description AS pooja_description
       FROM orders o
-      JOIN payments p ON o.id = p.order_id
-      JOIN poojas pooja ON o.pooja_id = pooja.id
+      LEFT JOIN payments p ON o.id = p.order_id
+      LEFT JOIN poojas pooja ON o.pooja_id = pooja.id
       WHERE o.user_id = $1
       ORDER BY o.created_at DESC
     `;

@@ -1,0 +1,1 @@
+{"version":3,"file":"timeoutMiddleware.d.ts","sourceRoot":"","sources":["../../src/middlewares/timeoutMiddleware.ts"],"names":[],"mappings":"AAAA,OAAO,EAAE,OAAO,EAAE,QAAQ,EAAE,YAAY,EAAE,MAAM,SAAS,CAAC;AAE1D,eAAO,MAAM,cAAc,GAAI,WAAW,MAAM,MACtC,KAAK,OAAO,EAAE,KAAK,QAAQ,EAAE,MAAM,YAAY,SAkBxD,CAAC;AAEF,eAAO,MAAM,aAAa,GAAI,KAAK,OAAO,EAAE,KAAK,QAAQ,EAAE,MAAM,YAAY,SAG5E,CAAC"}

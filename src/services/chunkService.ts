@@ -28,8 +28,8 @@ export const chunkText = (text: string): string[] => {
             chunks.push(chunk);
         }
 
-        start = end - OVERLAP;
-        if (start < 0) start = 0;
+        const nextStart = end - OVERLAP;
+        start = nextStart > start ? nextStart : end;
     }
 
     return chunks;

@@ -8,6 +8,9 @@ import itemRoutes from "./itemRoutes.js";
 import poojaItemsRoutes from "./poojaItemsRoute.js";
 import announcementRoutes from "./announcementRoute.js";
 import ragRouter from "./ragRouter.js";
+import nivedyamRoutes from "./nivedyamRoutes.js";
+import poojaNivedyamRoutes from "./poojaNivedyamRoute.js";
+
 
 const router = express.Router();
 
@@ -20,5 +23,8 @@ router.use('/items', itemRoutes);
 router.use('/poojaItems', poojaItemsRoutes);
 router.use('/announcements', announcementRoutes);
 router.use('/askAgraharam', ragRouter);
+router.use('/nivedyam', nivedyamRoutes);
+router.use('/poojaNivedyam', poojaNivedyamRoutes);
+
 
 export default router;
