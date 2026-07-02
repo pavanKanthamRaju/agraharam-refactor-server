@@ -57,6 +57,8 @@ const createSupabaseAdapter = (): DbAdapter => {
         query: async (text: string, values = []): Promise<QueryResult<any>> => {
             const rawSql = substituteParams(text.trim(), values);
             const { data, error } = await supabase.rpc('execute_sql', { sql_query: rawSql });
+             const start = Date.now();
+            console.log("Supabase RPC Time:", Date.now() - start, "ms");
             if (error) {
                 console.error("Supabase SQL Error:", error);
                 throw error;
