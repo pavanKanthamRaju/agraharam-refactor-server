@@ -4,10 +4,10 @@ import { getAllPoojas, createPooja, modifyPooja } from "../models/poojaModel.js"
 const getPoojas = async (req: Request, res: Response): Promise<void> => {
     try {
        const start = Date.now();
-         `start ${req.method} ${req.originalUrl}: ${Date.now() - start} ms`
+       console.log(`start ${req.method} ${req.originalUrl}: ${Date.now() - start} ms`)
 
         const result = await getAllPoojas();
-         `end ${req.method} ${req.originalUrl}: ${Date.now() - start} ms`
+        console.log(`end ${req.method} ${req.originalUrl}: ${Date.now() - start} ms`);
         res.status(200).json(result);
     } catch (err: any) {
         res.status(500).json({ message: "Failed to fetch Poojas" });
