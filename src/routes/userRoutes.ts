@@ -11,7 +11,7 @@ const router = express.Router();
 // Zod Schemas
 export const createUserSchema = z.object({
   name: z.string().min(1, { message: "Name is required" }),
-  email: z.string().email({ message: "Invalid email address" }),
+  email: z.email({ message: "Invalid email address" }).min(1, { message: "Email is required" }),
   password: z.string().min(6, { message: "Password must be at least 6 characters long" }),
   phone: z.coerce.string().regex(/^\d{10}$/, { message: "Phone number must be exactly 10 digits" }),
   role: z.enum(["user", "admin", "vendor"], { message: "Invalid role" }).optional().default("user"),
