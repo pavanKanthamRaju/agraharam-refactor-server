@@ -10,7 +10,12 @@ const getAllPoojas = async (): Promise<Pooja[]> => {
         return cachedData;
     }
     console.log("Cache miss for poojas, fetching from DB...");
-    const result = await db.query("SELECT * FROM poojas");
+const dbStart = Date.now();
+
+const result = await db.query("SELECT * FROM poojas");
+
+console.log("DB Query Time:", Date.now() - dbStart, "ms");
+
     await serCache(cacheKey, result.rows);
     return result.rows;
 };
