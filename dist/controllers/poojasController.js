@@ -1,12 +1,10 @@
 import { getAllPoojas, createPooja, modifyPooja } from "../models/poojaModel.js";
 const getPoojas = async (req, res) => {
     try {
-          const start = Date.now();
-         `start ${req.method} ${req.originalUrl}: ${Date.now() - start} ms`
-
+        const start = Date.now();
+        console.log(`start ${req.method} ${req.originalUrl}: ${Date.now() - start} ms`);
         const result = await getAllPoojas();
-         `end ${req.method} ${req.originalUrl}: ${Date.now() - start} ms`
-
+        console.log(`end ${req.method} ${req.originalUrl}: ${Date.now() - start} ms`);
         res.status(200).json(result);
     }
     catch (err) {
